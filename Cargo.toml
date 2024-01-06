@@ -1,0 +1,37 @@
+[package]
+name = "anna-mcu"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "anna_mcu"
+test = false
+bench = false
+path = "src/main.rs"
+
+[dependencies]
+panic-halt = "0.2.0"
+embedded-hal = "0.2.3"
+
+[dependencies.arduino-hal]
+git = "https://github.com/Eugeny/avr-hal.git"
+rev = "f205366"
+features = ["arduino-micro"]
+
+[dependencies.avr-hal-generic]
+git = "https://github.com/Eugeny/avr-hal.git"
+rev = "f205366"
+
+# Configure the build for minimal size - AVRs have very little program memory
+[profile.dev]
+panic = "abort"
+lto = true
+opt-level = "z"
+overflow-checks = false
+
+[profile.release]
+panic = "abort"
+# codegen-units = 1
+debug = true
+lto = true
+opt-level = "z"
